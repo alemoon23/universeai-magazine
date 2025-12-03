@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVAI: UniVerseAI - Piattaforma Interattiva e Accademica</title>
+    <style>
+        /* CSS Integrato - Tema Moderno e Contemporaneo */
+        :root {
+            --primary-color: #002447; /* Blue Navy scuro */
+            --secondary-color: #f5f5dc; /* Beige/Crema chiaro */
+            --accent-color: #1abc9c; /* Verde acqua/Ciano moderno */
+            --text-color-dark: #2c3e50;
+            --text-color-light: #ffffff;
+            --background-color: #f9f9f9;
+            --light-border: #e6e6e6;
+        }
+
+        /* 1. SFONDO DINAMICO (Aggiunto) */
+        @keyframes subtle-move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color-dark);
+            line-height: 1.6;
+            
+            /* Sfondo Dinamico - Gradiente Sottile Animato */
+            background: linear-gradient(-45deg, var(--background-color), #eaeaea, var(--secondary-color), #f9f9f9);
+            background-size: 400% 400%;
+            animation: subtle-move 30s ease infinite;
+            /* Fine Sfondo Dinamico */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--background-color);
+            border-bottom: 1px solid var(--light-border);
+            /* Assicuriamo che l'header sia opaco sopra lo sfondo animato */
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-section img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-section h1 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 700;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky; /* Rende la nav sticky per un layout moderno */
+            top: 0;
+            z-index: 50;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: right;
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            color: var(--text-color-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 20px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #003366;
+            color: var(--accent-color);
+        }
+
+        main {
+            padding: 40px 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        /* --- Barra di Ricerca --- */
+        .search-bar-container {
+            margin: 40px auto;
+            max-width: 700px;
+            display: flex;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .search-bar-container input[type="search"] {
+            flex-grow: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1em;
+            outline: none;
+        }
+        .search-bar-container button {
+            padding: 15px 25px;
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .search-bar-container button:hover {
+            background-color: #001a35;
+        }
+
+        /* --- Sezione Piani di Abbonamento --- */
+        #piani-abbonamento {
+            background-color: var(--secondary-color);
+            padding: 40px 0;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .pricing-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .plan-card {
+            background-color: var(--background-color);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .plan-details {
+            width: 70%;
+        }
+        .plan-price-block {
+            width: 30%;
+            text-align: right;
+        }
+        .plan-price-block .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        /* --- Tool Card (Layout Orizzontale MODIFICATO) --- */
+        .tool-category {
+            margin-bottom: 40px;
+        }
+        .tool-grid {
+            display: grid; /* Modifica per layout simmetrico */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 300px min, riempie lo spazio */
+            gap: 20px;
+            /* Rimosso justify-content: flex-start; */
+        }
+        .tool-card {
+            background-color: var(--background-color);
+            border: 1px solid var(--light-border);
+            border-radius: 8px;
+            padding: 15px;
+            /* Rimosso width: calc(33.33% - 20px); */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: border-color 0.3s;
+            position: relative; /* Per interazioni */
+        }
+        
+        /* --- Sezione Workshop (Blur e Link Modale) --- */
+        #workshop {
+            padding: 60px 0;
+        }
+        .workshop-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .workshop-card {
+            background-color: var(--background-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 300px;
+            overflow: hidden;
+            text-align: center;
+            position: relative; /* Per interazioni */
+        }
+        
+        /* Stile per l'anteprima sfocata */
+        .workshop-preview {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .workshop-preview img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            filter: blur(5px);
+            transition: filter 0.3s;
+            display: block;
+        }
+        .workshop-preview:hover img {
+            filter: blur(2px);
+        }
+        .workshop-preview span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        /* --- Interazioni Post (Like, Commenti, etc.) --- */
+        .post-interactions {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid var(--light-border);
+            margin-top: 10px;
+        }
+        .interaction-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .interaction-item:hover {
+            color: var(--primary-color);
+        }
+        .interaction-item span {
+            margin-right: 5px;
+            font-size: 1.2em;
+            /* Placeholder Icone (utilizziamo Unicode per semplicità) */
+        }
+        .tag-list {
+            text-align: left;
+            padding: 5px 15px 0;
+        }
+        .tag-list span {
+            display: inline-block;
+            background-color: #e0f0f0;
+            color: var(--accent-color);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.75em;
+            margin-right: 5px;
+        }
+
+        /* --- Sezione Editor Articoli --- */
+        #editor-articoli {
+            padding: 60px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-top: 40px;
+        }
+        .editor-controls {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background-color: #eee;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+        }
+        .editor-controls select, .editor-controls input[type="color"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+        .editor-controls button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .editor-controls button:hover {
+            background-color: #17a589;
+        }
+        
+        .article-editor {
+            min-height: 400px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            outline: none;
+            background-color: white;
+            overflow-y: auto;
+            /* Stili di default per simulare un tema giornalistico */
+            font-family: 'Times New Roman', serif;
+        }
+
+        /* Simulazione cambio Tema (Esempio: Tema Scuro) */
+        .editor-container.dark-theme .article-editor {
+            background-color: #333;
+            color: #ddd;
+            border-color: #555;
+        }
+        
+        /* 2. STILI NUOVA SEZIONE BIBLIOTECA E AR LAB (Aggiunto) */
+        #biblioteca-ar {
+            padding: 60px 0;
+        }
+
+        .ar-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .ar-card {
+            background-color: var(--background-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            text-align: center;
+            border: 2px solid var(--light-border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .ar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .ar-card h3 {
+            color: var(--primary-color);
+            margin-top: 10px;
+            font-size: 1.5em;
+        }
+        
+        .ar-card .ar-icon {
+            font-size: 3em;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .ar-card .cta-button.ar-button {
+            background-color: var(--accent-color);
+            margin-top: 15px;
+        }
+        
+        .ar-card .cta-button.ar-button:hover {
+            background-color: #17a589;
+        }
+        
+        /* Modale per AR (Simulazione) */
+        #ar-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 36, 71, 0.95); /* Primary Color scuro */
+            display: none;
+            align-items: center; justify-content: center; z-index: 2000;
+            flex-direction: column;
+        }
+        #ar-modal:target { display: flex; }
+        .ar-modal-content {
+            color: var(--text-color-light);
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+            border-radius: 10px;
+            border: 2px solid var(--accent-color);
+        }
+        .ar-modal-content h3 {
+            color: var(--accent-color);
+        }
+
+        /* Stile Modale/Lightbox (Invariato) */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); display: none;
+            align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal:target { display: flex; }
+        .modal-content { max-width: 90%; max-height: 90%; position: relative; }
+        .modal-content img { display: block; width: auto; max-width: 100%; max-height: 100vh; }
+        .modal-close {
+            position: absolute; top: 20px; right: 30px; color: #fff;
+            font-size: 40px; font-weight: bold; transition: 0.3s;
+            text-decoration: none; line-height: 1;
+        }
+        .modal-close:hover { color: #bbb; }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-color-light);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        /* Media Query per reattività */
+        @media (max-width: 768px) {
+            .tool-grid {
+                /* Su schermi piccoli, le colonne saranno di minimo 250px e si impileranno */
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+    </style>
+    <script>
+        function applyStyle() {
+            const editor = document.getElementById('article-content');
+            const font = document.getElementById('font-select').value;
+            const color = document.getElementById('color-select').value;
+            const size = document.getElementById('size-select').value;
+            const theme = document.getElementById('theme-select').value;
+
+            // Applica Font e Dimensione
+            editor.style.fontFamily = font;
+            editor.style.fontSize = size;
+            
+            // Applica Colore
+            editor.style.color = color;
+
+            // Applica Tema (cambia la classe sul container)
+            const editorContainer = document.querySelector('.editor-container');
+            editorContainer.classList.remove('dark-theme', 'light-theme', 'serif-theme'); // Rimuovi precedenti
+            if (theme !== 'default') {
+                editorContainer.classList.add(theme);
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo-section">
+                <img src="UVAI logo.png" alt="Logo UniVerseAI">
+                <h1>UniVerseAI</h1>
+            </div>
+            <p style="font-size: 0.9em; color: #555;">Academic & Interactive Magazine</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#editor-articoli">Articolo PRO</a></li>
+                <li><a href="#tools-attivita">Strumenti & Attività</a></li>
+                <li><a href="#biblioteca-ar">Biblioteca & AR Lab</a></li> <li><a href="#workshop">Workshop</a></li>
+                <li><a href="#piani-abbonamento">Abbonamenti</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+        <div class="search-bar-container">
+            <input type="search" placeholder="Cerca articoli, tool AI, guide DSA..." required>
+            <button type="submit">Cerca</button>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid var(--light-border);">
+
+        <section id="editor-articoli">
+            <h2 style="margin-bottom: 10px;">✍️ Editor Articoli PRO</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--accent-color); font-weight: 500;">Crea e modella i tuoi saggi in un ambiente di scrittura avanzato (Accesso PRO).</p>
+
+            <div class="editor-container">
+                <div class="editor-controls">
+                    <select id="font-select" onchange="applyStyle()">
+                        <option value="'Times New Roman', serif">Font (Giornalistico)</option>
+                        <option value="Arial, sans-serif">Arial (Moderno)</option>
+                        <option value="'Courier New', monospace">Monospace (Tecnico)</option>
+                    </select>
+                    
+                    <select id="size-select" onchange="applyStyle()">
+                        <option value="1.1em">Dimensione (1.1em)</option>
+                        <option value="1.0em">Piccola (1.0em)</option>
+                        <option value="1.3em">Grande (1.3em)</option>
+                    </select>
+
+                    <input type="color" id="color-select" value="#2c3e50" onchange="applyStyle()">
+                    
+                    <select id="theme-select" onchange="applyStyle()">
+                        <option value="default">Forma & Tema (Default)</option>
+                        <option value="dark-theme">Tema Scuro</option>
+                        <option value="serif-theme">Margini Accademici</option>
+                    </select>
+                    
+                    <button>Pubblica Articolo</button>
+                </div>
+
+                <div id="article-content" class="article-editor" contenteditable="true">
+                    <h3>Titolo: Inserisci il titolo del tuo articolo qui...</h3>
+                    <p>Inizia a scrivere il tuo articolo. Puoi interagire con i controlli in alto per cambiare font, colore e tema. Questo spazio supporta la scrittura formattata e l'editing in tempo reale.</p>
+                    <p>La possibilità di cambiare la forma, il tema e la tipografia ti permette di adattare l'articolo per la pubblicazione finale sul magazine UVAI.</p>
+                </div>
+            </div>
+        </section>
+        
+        <hr style="border: 0; border-top: 1px solid var(--light-border);">
+
+        <section id="tools-attivita">
+            <h2>🤖 Strumenti di Intelligenza Artificiale & Risorse</h2>
+
+            <div class="tool-category">
+                <h3>Strumenti AI per lo Studio (Accesso BASE/PLUS)</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Generatore di Riassunti AI</h4>
+                        <p>Genera riassunti veloci di testi accademici. **(BASE)**</p>
+                        <div class="tag-list"><span>#Riassunto</span> <span>#StudioVeloce</span></div>
+                        <div class="post-interactions">
+                            <div class="interaction-item"><span>👍</span> 120</div>
+                            <div class="interaction-item"><span>💬</span> 34</div>
+                            <div class="interaction-item"><span>🔗</span> Condividi</div>
+                        </div>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Generatore di Flashcard</h4>
+                        <p>Crea schede didattiche personalizzate dai tuoi appunti. **(PLUS)**</p>
+                        <div class="tag-list"><span>#Memorizzazione</span> <span>#Flashcard</span></div>
+                        <div class="post-interactions">
+                            <div class="interaction-item"><span>👍</span> 98</div>
+                            <div class="interaction-item"><span>💬</span> 15</div>
+                            <div class="interaction-item"><span>🔗</span> Condividi</div>
+                        </div>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Correttore Stilistico (AI Proofreader)</h4>
+                        <p>Migliora la chiarezza e lo stile dei tuoi saggi. **(PLUS)**</p>
+                        <div class="tag-list"><span>#Saggio</span> <span>#Revisione</span> <span>#AI</span></div>
+                        <div class="post-interactions">
+                            <div class="interaction-item"><span>👍</span> 155</div>
+                            <div class="interaction-item"><span>💬</span> 45</div>
+                            <div class="interaction-item"><span>🔗</span> Condividi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </section>
+
+        <hr style="border: 0; border-top: 1px solid var(--light-border);">
+
+        <section id="biblioteca-ar">
+            <h2>📚 Biblioteca Estesa & AR Lab 🔬</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--primary-color); font-weight: 500;">Accedi a un database illimitato e interagisci con gli articoli attraverso la Realtà Aumentata (Accesso PRO).</p>
+
+            <div class="ar-card-grid">
+                
+                <div class="ar-card">
+                    <span class="ar-icon">📖</span>
+                    <h3>Database Accademico PRO</h3>
+                    <p>Migliaia di riviste, tesi e paper esclusivi, indicizzati per la ricerca avanzata.</p>
+                    <a href="#" class="cta-button ar-button">Esplora la Biblioteca</a>
+                </div>
+                
+                <div class="ar-card">
+                    <span class="ar-icon">👓</span>
+                    <h3>AR View per Articoli</h3>
+                    <p>**Simulazione AR:** Consulta grafici, modelli 3D e dati in Realtà Aumentata (richiede visore/app compatibile).</p>
+                    <a href="#ar-modal" class="cta-button ar-button">Attiva AR Mode</a>
+                </div>
+                
+                <div class="ar-card">
+                    <span class="ar-icon">🌐</span>
+                    <h3>Filtri di Ricerca Avanzati</h3>
+                    <p>Strumenti di classificazione e filtri semantici potenziati per risultati rapidi e pertinenti.</p>
+                    <a href="#" class="cta-button ar-button">Ricerca Avanzata</a>
+                </div>
+
+            </div>
+        </section>
+        
+        <hr style="border: 0; border-top: 1px solid var(--light-border);">
+
+        <section id="workshop">
+            <h2>📢 I Prossimi Eventi e Workshop</h2>
+
+            <div class="workshop-grid">
+                
+                <div class="workshop-card">
+                    <a href="#modal-workshop-1" class="workshop-preview">
+                        <img src="DOPPIO LOGO ai week.png" alt="Locandina AI All Day University">
+                        <span>Vedi Dettagli</span>
+                    </a>
+                    <div class="workshop-info">
+                        <h4>AI All Day University</h4>
+                        <p>05/12/25 | **(BASE: Acquisto | PLUS/PRO: Incluso)**</p>
+                        <div class="tag-list"><span>#AI</span> <span>#Trasparenza</span> <span>#Sostenibilità</span></div>
+                        <div class="post-interactions">
+                            <div class="interaction-item"><span>👍</span> 250</div>
+                            <div class="interaction-item"><span>💬</span> 78</div>
+                            <div class="interaction-item"><span>🔗</span> Condividi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workshop-card">
+                    <a href="#modal-workshop-2" class="workshop-preview">
+                        <img src="DOPPIO LOGO workshop.png" alt="Locandina Workshop Still Confused About AI">
+                        <span>Vedi Dettagli</span>
+                    </a>
+                    <div class="workshop-info">
+                        <h4>Sfrutta i Tool AI di UVAI</h4>
+                        <p>08/12/25 | **(BASE: Acquisto | PLUS/PRO: Incluso)**</p>
+                        <div class="tag-list"><span>#ToolUVAI</span> <span>#Productività</span></div>
+                        <div class="post-interactions">
+                            <div class="interaction-item"><span>👍</span> 180</div>
+                            <div class="interaction-item"><span>💬</span> 42</div>
+                            <div class="interaction-item"><span>🔗</span> Condividi</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="workshop-card">
+                    <a href="#modal-workshop-3" class="workshop-preview">
+                        <img src="AI WEEK.png" alt="Locandina AI Week con eventi multipli">
+                        <span>Vedi Dettagli</span>
+                    </a>
+                    <div class="workshop-info">
+                        <h4>AI Week: Studio, Ricerca e Didattica</h4>
+                        <p>16-18/01/26 | **(BASE: Acquisto | PLUS/PRO: Incluso)**</p>
+                        <div class="tag-list"><span>#Seminario</span> <span>#Webinar</span> <span>#Ricerca</span></div>
+                        <div class="post-interactions">
+                            <div class="interaction-item"><span>👍</span> 310</div>
+                            <div class="interaction-item"><span>💬</span> 95</div>
+                            <div class="interaction-item"><span>🔗</span> Condividi</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr style="border: 0; border-top: 1px solid var(--light-border);">
+
+        <section id="piani-abbonamento">
+            <div class="container">
+                <h2 style="text-align: center;">💰 Abbonamenti UVAI</h2>
+                <p style="text-align: center; margin-top: -20px; margin-bottom: 30px;">Scegli l'accesso che potenzia al meglio i tuoi obiettivi accademici.</p>
+
+                <div class="pricing-grid">
+                    <div class="plan-card">
+                        <div class="plan-details">
+                            <h3>Pacchetto BASE</h3>
+                            <p>Accesso gratuito con tool base, prompt semplici, newsletter e contenuti free.</p>
+                        </div>
+                        <div class="plan-price-block">
+                            <span class="price">€0</span>
+                            <small>/mese (Gratis)</small>
+                        </div>
+                    </div>
+                    <div class="plan-card plus">
+                        <div class="plan-details">
+                            <h3>Pacchetto PLUS</h3>
+                            <p>Tool avanzati, libreria di prompt, mini-workshop mensili, modelli per progetti.</p>
+                        </div>
+                        <div class="plan-price-block">
+                            <span class="price">€5.99</span>
+                            <small>/mese (oppure €59/anno)</small>
+                        </div>
+                    </div>
+                    <div class="plan-card pro">
+                        <div class="plan-details">
+                            <h3>Pacchetto PRO</h3>
+                            <p>Modelli AI personalizzati, accesso prioritario, supporto 1:1, workshop avanzati, biblioteca estesa.</p>
+                        </div>
+                        <div class="plan-price-block">
+                            <span class="price">€9.99</span>
+                            <small>/mese (oppure €99/anno)</small>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="cta-button" style="margin-top: 20px; display: block; width: 250px; margin: 20px auto 0 auto; background-color: var(--primary-color);">Scegli il tuo piano</a>
+            </div>
+        </section>
+
+    </main>
+    
+    <div id="ar-modal" class="modal">
+      <a href="#biblioteca-ar" class="modal-close">&times;</a>
+      <div class="ar-modal-content">
+        <span class="ar-icon">✨</span>
+        <h3>Modalità Realtà Aumentata Attiva</h3>
+        <p>Prepara il tuo visore AR o apri l'app UVAI compatibile. Il sistema sta proiettando i dati interattivi e i modelli 3D dei tuoi articoli nell'ambiente circostante. (Questa è una simulazione puramente visiva)</p>
+        <p style="font-size: 0.8em; opacity: 0.7; margin-top: 20px;">Torna alla sezione Biblioteca per chiudere.</p>
+      </div>
+    </div>
+    
+    <div id="modal-workshop-1" class="modal">
+      <a href="#workshop" class="modal-close">&times;</a>
+      <div class="modal-content">
+        <img src="DOPPIO LOGO ai week.png" alt="Locandina AI All Day University - Full Size">
+      </div>
+    </div>
+    <div id="modal-workshop-2" class="modal">
+      <a href="#workshop" class="modal-close">&times;</a>
+      <div class="modal-content">
+        <img src="DOPPIO LOGO workshop.png" alt="Locandina Workshop Still Confused About AI - Full Size">
+      </div>
+    </div>
+    <div id="modal-workshop-3" class="modal">
+      <a href="#workshop" class="modal-close">&times;</a>
+      <div class="modal-content">
+        <img src="AI WEEK.png" alt="Locandina AI Week con eventi multipli - Full Size">
+      </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 UniVerseAI (UVAI) | Academic & Interactive Magazine.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
